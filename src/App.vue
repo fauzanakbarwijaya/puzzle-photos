@@ -15,6 +15,7 @@
     const pieceSize = computed(() => canvasSize / gridSize.value);
     const timer = ref(300); // Timer dalam detik (5 menit)
     const firstMoveMade = ref(false);
+    const selectedPiece = ref(null);
     let timerInterval = null;
 
     const handleImageUpload = (event) => {
@@ -137,12 +138,14 @@
 
     const onPieceClick = (index) => {
         if (selectedPiece.value === null) {
-            selectedPiece.value = index;
-        } else {
-            swapPieces(selectedPiece.value, index);
-            selectedPiece.value = null;
+            selectedPiece.value = index; // Pilih pertama
+        } else if (selectedPiece.value !== index) {
+            swapPieces(selectedPiece.value, index); // Swap jika beda
+            selectedPiece.value = null; // Reset setelah swap
         }
     };
+
+
 
     const swapPieces = (index1, index2) => {
         [shuffledPieces.value[index1], shuffledPieces.value[index2]] = [shuffledPieces.value[index2], shuffledPieces
@@ -210,5 +213,10 @@
         display: inline-block;
         border: 1px solid #fff;
         cursor: grab;
+    }
+
+    .selected-piece {
+        outline: 3px solid yellow;
+        box-shadow: 0 0 10px yellow;
     }
 </style>
