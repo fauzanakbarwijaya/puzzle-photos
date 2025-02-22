@@ -134,6 +134,22 @@
     const onDragOver = (event) => {
         event.preventDefault();
     };
+
+    const onPieceClick = (index) => {
+        if (selectedPiece.value === null) {
+            selectedPiece.value = index;
+        } else {
+            swapPieces(selectedPiece.value, index);
+            selectedPiece.value = null;
+        }
+    };
+
+    const swapPieces = (index1, index2) => {
+        [shuffledPieces.value[index1], shuffledPieces.value[index2]] = [shuffledPieces.value[index2], shuffledPieces
+            .value[index1]
+        ];
+        checkWin();
+    };
 </script>
 
 <template>
@@ -172,8 +188,12 @@
                     :class="{ 'selected-piece': selectedPiece === index }" draggable="true"
                     @dragstart="onDragStart($event, index)" @dragover="onDragOver" @drop="onDrop($event, index)"
                     @click="onPieceClick(index)"
-                    :style="{ width: pieceSize + 'px', height: pieceSize + 'px', backgroundImage: `url(${piece.imgSrc})`,
-                        backgroundSize: 'cover' }">
+                    :style="{
+                        width: pieceSize + 'px',
+                        height: pieceSize + 'px',
+                        backgroundImage: `url(${piece.imgSrc})`,
+                        backgroundSize: 'cover'
+                    }">
                 </div>
             </div>
         </div>
